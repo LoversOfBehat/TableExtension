@@ -1,0 +1,15 @@
+{
+    "name": "openeuropa/table-context",
+    "description": "Behat context to inspect HTML tables",
+    "require": {
+        "behat/behat": "^3.4",
+        "behat/mink-extension": "^2.3"
+    },
+    "license": "EUPL v1.2",
+    "authors": [
+        {
+            "name": "Pieter Frenssen",
+            "email": "pieter@frenssen.be"
+        }
+    ]
+}
