@@ -3,13 +3,23 @@
     "description": "Behat context to inspect HTML tables",
     "require": {
         "behat/behat": "^3.4",
-        "behat/mink-extension": "^2.3"
+        "behat/mink-extension": "^2.3",
+        "php": "~7.1"
     },
-    "license": "EUPL v1.2",
+    "license": "EUPL",
     "authors": [
         {
             "name": "Pieter Frenssen",
             "email": "pieter@frenssen.be"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "OpenEuropa\\TableContext\\": "src"
+        }
+    },
+    "require-dev": {
+        "behat/mink-goutte-driver": "^1.2",
+        "squizlabs/php_codesniffer": "^3.2"
+    }
 }

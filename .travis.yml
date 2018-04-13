@@ -1,0 +1,29 @@
+language: php
+sudo: false
+
+php:
+  - 7.1
+  - 7.2
+
+env:
+  - TEST_SUITE=Behat
+  - TEST_SUITE=PHP_CodeSniffer
+
+# Only run the coding standards check once.
+matrix:
+  exclude:
+    - php: 7.1
+      env: TEST_SUITE=PHP_CodeSniffer
+
+before_script:
+  # Install dependencies.
+  - composer install
+
+  # Start a web server on port 8000 in the background.
+  - DOCROOT=${TRAVIS_BUILD_DIR}/fixtures
+  - test ${TEST_SUITE} == "PHP_CodeSniffer" || nohup php -S localhost:8000 --docroot $DOCROOT > /dev/null 2>&1 &
+
+  # Wait until the web server is responding.
+  - test ${TEST_SUITE} == "PHP_CodeSniffer" || until curl -s localhost:8000; do true; done > /dev/null
+
+script: ${TRAVIS_BUILD_DIR}/scripts/travis-ci/run-test.sh $TEST_SUITE

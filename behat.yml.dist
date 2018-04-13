@@ -1,0 +1,10 @@
+default:
+  suites:
+    default:
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - OpenEuropa\TableContext\Context\TableContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      base_url: http://localhost:8000
