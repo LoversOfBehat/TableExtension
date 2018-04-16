@@ -57,6 +57,16 @@ class TableContext extends RawMinkContext
     }
 
     /**
+     * Checks that the given table is present on the page.
+     *
+     * @Then I should see the :name table
+     */
+    public function assertNamedTable(string $name): void
+    {
+        $this->getTable($name);
+    }
+
+    /**
      * Checks that the expected number of tables is present in the page.
      *
      * @Then /^I should see (\d+) (?:table|tables)$/
@@ -104,6 +114,34 @@ class TableContext extends RawMinkContext
                 throw new \RuntimeException("A table with $count columns is present on the page, but should not be.");
             }
         }
+    }
+
+    /**
+     * Returns the table that corresponds with the given human readable name.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     *
+     * @return Table
+     */
+    protected function getTable(string $name): Table
+    {
+        if (!array_key_exists($name, $this->tableMap)) {
+            throw new \RuntimeException("The '$name' table is not defined in behat.yml.");
+        }
+        $selector = $this->tableMap[$name];
+        $element = $this->getSession()->getPage()->find('css', $selector);
+
+        if (empty($element)) {
+            throw new \RuntimeException("The '$name' table is not found in the page.");
+        }
+
+        $tag_name = $element->getTagName();
+        if ($tag_name !== 'table') {
+            throw new \RuntimeException("The '$name' element is not a table but a $tag_name.");
+        }
+
+        return new Table($this->getSession(), $element);
     }
 
     /**

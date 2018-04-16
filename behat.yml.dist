@@ -3,7 +3,12 @@ default:
     default:
       contexts:
         - Behat\MinkExtension\Context\MinkContext
-        - OpenEuropa\TableContext\Context\TableContext
+        - OpenEuropa\TableContext\Context\TableContext:
+            tableMap:
+              'simple': '#simple-table'
+              'Algarve': 'table:nth-of-type(2)'
+              'Population data': 'table.countries'
+              'Employees': '.employees > table'
   extensions:
     Behat\MinkExtension:
       goutte: ~
