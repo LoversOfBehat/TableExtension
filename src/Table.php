@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace OpenEuropa\TableContext;
 
 use Behat\Mink\Element\NodeElement;
