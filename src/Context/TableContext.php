@@ -88,7 +88,7 @@ class TableContext extends RawMinkContext
      *
      * @Then I should see a table with :count column(s)
      */
-    public function assertColumnCount(int $count): void
+    public function assertTableWithColumnCountExists(int $count): void
     {
         $this->assertTable();
         foreach ($this->getTables() as $table) {
@@ -97,6 +97,26 @@ class TableContext extends RawMinkContext
             }
         }
         throw new \RuntimeException("No table with $count columns is present on the page.");
+    }
+
+    /**
+     * Checks that the given table has the given number of columns.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param int $count
+     *   The expected number of columns.
+     *
+     * @Then the :name table should have :count column(s)
+     */
+    public function assertTableColumnCount(string $name, int $count): void
+    {
+        $table = $this->getTable($name);
+        $actual = $table->getColumnCount();
+        if ($actual === $count) {
+            return;
+        }
+        throw new \RuntimeException("The $name table should have $count columns but it has $actual columns.");
     }
 
     /**
