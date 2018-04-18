@@ -78,9 +78,7 @@ class Table
             $colspan = $cell->getAttribute('colspan');
             if ($colspan !== null) {
                 if (!$is_positive_integer($colspan)) {
-                    // @codingStandardsIgnoreStart
                     throw new \RuntimeException('Cannot calculate column count. One of the table cells has a colspan that is not a valid positive integer greater than zero.');
-                    // @codingStandardsIgnoreEnd
                 }
                 $count += $colspan;
             } else {

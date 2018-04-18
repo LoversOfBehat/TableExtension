@@ -5,7 +5,7 @@
 
 case "$1" in
     PHP_CodeSniffer)
-        ./vendor/bin/phpcs -p --standard=PSR2 src/
+        ./vendor/bin/phpcs
         exit $?
         ;;
     *)
