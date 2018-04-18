@@ -24,11 +24,11 @@ class Table
     protected $session;
 
     /**
-     * The Mink element representing the table.
+     * The XPath expression that can be used to retrieve the table.
      *
-     * @var NodeElement
+     * @var string
      */
-    protected $element;
+    protected $xpath;
 
     /**
      * The table wrapped in a Crawler for easy traversing.
@@ -49,13 +49,13 @@ class Table
      *
      * @param Session $session
      *   The Mink session.
-     * @param NodeElement $element
-     *   The Mink element representing the table.
+     * @param string $xpath
+     *   The XPath expression that can be used to retrieve the table.
      */
-    public function __construct(Session $session, NodeElement $element)
+    public function __construct(Session $session, string $xpath)
     {
         $this->session = $session;
-        $this->element = $element;
+        $this->xpath = $xpath;
     }
 
     /**
@@ -357,7 +357,7 @@ class Table
         if (!isset($this->crawler)) {
             // To speed up processing of large tables, retrieve the full HTML from the browser in a single operation.
             try {
-                $html = $this->session->getDriver()->getOuterHtml($this->element->getXpath());
+                $html = $this->session->getDriver()->getOuterHtml($this->xpath);
             } catch (UnsupportedDriverActionException $e) {
                 // @todo Implement an alternative approach that uses DriverInterface::find().
                 throw new \RuntimeException('Driver doesn\'t support direct retrieval of HTML data.', 0, $e);

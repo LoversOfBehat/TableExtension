@@ -283,7 +283,7 @@ class TableContext extends RawMinkContext
             throw new \RuntimeException("The '$name' element is not a table but a $tag_name.");
         }
 
-        return new Table($this->getSession(), $element);
+        return new Table($this->getSession(), $element->getXpath());
     }
 
     /**
@@ -295,7 +295,7 @@ class TableContext extends RawMinkContext
     protected function getTables(): array
     {
         return array_map(function (NodeElement $element): Table {
-            return new Table($this->getSession(), $element);
+            return new Table($this->getSession(), $element->getXpath());
         }, $this->getSession()->getPage()->findAll('css', 'table'));
     }
 
