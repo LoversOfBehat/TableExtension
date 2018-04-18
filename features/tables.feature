@@ -33,6 +33,7 @@ Feature: Inspecting HTML tables
       | Header 1    | Header 2    | Header 3    |
       | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
       | Row 2 Col 1 | Row 2 Col 2 | Row 2 Col 3 |
+    # Check that we can verify subsets of the table.
     And the simple table should contain:
       | Header 1    | Header 2    |
       | Row 1 Col 1 | Row 1 Col 2 |
@@ -64,6 +65,16 @@ Feature: Inspecting HTML tables
       | Argentina | 43.8       | 2780400      | 16                   |
       | Bahamas   | 0.4        | 13900        | 39                   |
       | World     | 7442.1     | 134325100    | 57                   |
+    # Check that we can verify non-consecutive columns by specifying the headers.
+    And the "Population data" table should contain the following columns:
+      | Country   | Population density |
+      | Albania   | 105                |
+      | Andorra   | 164                |
+      | Algeria   | 17                 |
+      | Angola    | 23                 |
+      | Argentina | 16                 |
+      | Bahamas   | 39                 |
+      | World     | 57                 |
 
     # The fourth table has a rowspan on the first element.
     And I should see the Employees table
@@ -73,6 +84,11 @@ Feature: Inspecting HTML tables
       |                 | Office     | Position       | E-mail address      | Phone number |
       | Lelisa Ericsson | Healthcare | Nurse          | lelisa@example.com  | 555-1234567  |
       | Genista Sumner  | Science    | Anthropologist | genista@example.com | 555-987654   |
+    # Check that we can verify non-consecutive columns of which not all headers are in the same row.
+    And the Employees table should contain the following columns:
+      | Name            | Office     | Phone number |
+      | Lelisa Ericsson | Healthcare | 555-1234567  |
+      | Genista Sumner  | Science    | 555-987654   |
 
     # The fifth table combines rowspans and colspans.
     And I should see the "Mad spanner" table

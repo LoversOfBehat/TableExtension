@@ -134,7 +134,23 @@ class TableContext extends RawMinkContext
     public function assertTableData(string $name, TableNode $data): void
     {
         $table = $this->getTable($name);
-        Assert::assertArraySubset(array_values($data->getTable()), $table->getData());
+        Assert::assertArraySubset($data->getRows(), $table->getData());
+    }
+
+    /**
+     * Checks that the given table contains the given non-consecutive columns, identified by headers.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that is expected to be present in the table, with the first row identifying the columns to match.
+     *
+     * @Then the :name table should contain the following column(s):
+     */
+    public function assertTableColumnData(string $name, TableNode $data): void
+    {
+        $table = $this->getTable($name);
+        Assert::assertArraySubset($data->getColumnsHash(), array_values($table->getColumnData($data->getRow(0))));
     }
 
     /**
