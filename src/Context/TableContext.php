@@ -7,6 +7,7 @@ namespace OpenEuropa\TableContext\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
+use OpenEuropa\TableContext\Exception\TableNotFoundException;
 use OpenEuropa\TableContext\Table;
 use PHPUnit\Framework\Assert;
 
@@ -69,6 +70,21 @@ class TableContext extends RawMinkContext
     }
 
     /**
+     * Checks that the given table is not present on the page.
+     *
+     * @Then I should not see the :name table
+     */
+    public function assertNoNamedTable(string $name): void
+    {
+        try {
+            $this->getTable($name);
+        } catch (TableNotFoundException $e) {
+            return;
+        }
+        throw new \RuntimeException("The $name table was found in the page but it was not expected to be.");
+    }
+
+    /**
      * Checks that the expected number of tables is present in the page.
      *
      * @Then /^I should see (\d+) (?:table|tables)$/
@@ -102,6 +118,25 @@ class TableContext extends RawMinkContext
     }
 
     /**
+     * Checks that a table exists in the page with the given number of rows.
+     *
+     * @param int $count
+     *   The expected number of rows.
+     *
+     * @Then I should see a table with :count row(s)
+     */
+    public function assertTableWithRowCountExists(int $count): void
+    {
+        $this->assertTable();
+        foreach ($this->getTables() as $table) {
+            if ($table->getRowCount() === $count) {
+                return;
+            }
+        }
+        throw new \RuntimeException("No table with $count rows is present on the page.");
+    }
+
+    /**
      * Checks that the given table has the given number of columns.
      *
      * @param string $name
@@ -119,6 +154,26 @@ class TableContext extends RawMinkContext
             return;
         }
         throw new \RuntimeException("The $name table should have $count columns but it has $actual columns.");
+    }
+
+    /**
+     * Checks that the given table has the given number of rows.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param int $count
+     *   The expected number of rows.
+     *
+     * @Then the :name table should have :count row(s)
+     */
+    public function assertTableRowCount(string $name, int $count): void
+    {
+        $table = $this->getTable($name);
+        $actual = $table->getRowCount();
+        if ($actual === $count) {
+            return;
+        }
+        throw new \RuntimeException("The $name table should have $count rows but it has $actual rows.");
     }
 
     /**
@@ -154,6 +209,22 @@ class TableContext extends RawMinkContext
     }
 
     /**
+     * Checks that the given table contains the given non-consecutive rows, identified by headers.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that is expected to be present in the table, with the first column identifying the rows to match.
+     *
+     * @Then the :name table should contain the following row(s):
+     */
+    public function assertTableRowData(string $name, TableNode $data): void
+    {
+        $table = $this->getTable($name);
+        Assert::assertArraySubset($data->getRowsHash(), $table->getRowData($data->getColumn(0)));
+    }
+
+    /**
      * Checks that a table with the given number of columns does not exist in the page.
      *
      * @param int $count
@@ -166,6 +237,23 @@ class TableContext extends RawMinkContext
         foreach ($this->getTables() as $table) {
             if ($table->getColumnCount() === $count) {
                 throw new \RuntimeException("A table with $count columns is present on the page, but should not be.");
+            }
+        }
+    }
+
+    /**
+     * Checks that a table with the given number of rows does not exist in the page.
+     *
+     * @param int $count
+     *   The number of rows.
+     *
+     * @Then I should not see a table with :count row(s)
+     */
+    public function assertNoRowCount(int $count): void
+    {
+        foreach ($this->getTables() as $table) {
+            if ($table->getRowCount() === $count) {
+                throw new \RuntimeException("A table with $count rows is present on the page, but should not be.");
             }
         }
     }
@@ -187,7 +275,7 @@ class TableContext extends RawMinkContext
         $element = $this->getSession()->getPage()->find('css', $selector);
 
         if (empty($element)) {
-            throw new \RuntimeException("The '$name' table is not found in the page.");
+            throw new TableNotFoundException("The '$name' table is not found in the page.");
         }
 
         $tag_name = $element->getTagName();

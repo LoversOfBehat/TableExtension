@@ -7,21 +7,32 @@ Feature: Inspecting HTML tables
     Given I am on the homepage
     Then I should see a table
     And I should see 5 tables
+
     And I should see a table with 2 columns
     And I should see a table with 3 columns
     And I should see a table with 4 columns
     And I should see a table with 5 columns
     And I should see a table with 6 columns
+
+    And I should see a table with 3 rows
+    And I should see a table with 4 rows
+    And I should see a table with 5 rows
+    And I should see a table with 9 rows
+
     But I should not see a table with 1 column
+    And I should not see a table with 7 columns
+
+    And I should not see a table with 1 row
+    And I should not see a table with 2 rows
 
     Given I am on "no-tables-here.html"
     Then I should not see a table
+    And I should not see the simple table
     And I should see 0 tables
     And I should not see a table with 1 column
     And I should not see a table with 2 columns
-    And I should not see a table with 3 columns
-    And I should not see a table with 4 columns
-    And I should not see a table with 5 columns
+    And I should not see a table with 1 row
+    And I should not see a table with 2 rows
 
   Scenario: Check if specific tables are displayed correctly
     Given I am on the homepage
@@ -29,6 +40,7 @@ Feature: Inspecting HTML tables
     # The first table is a simple affair with 3 columns, a header and 2 rows.
     Then I should see the simple table
     And the simple table should have 3 columns
+    And the simple table should have 3 rows
     And the simple table should contain:
       | Header 1    | Header 2    | Header 3    |
       | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
@@ -45,6 +57,7 @@ Feature: Inspecting HTML tables
     # The second table has 2 columns, of which the first is a vertical header.
     And I should see the Algarve table
     And the Algarve table should have 2 columns
+    And the Algarve table should have 5 rows
     And the Algarve table should contain:
       | Country       | Portugal   |
       | Capital       | Faro       |
@@ -55,6 +68,7 @@ Feature: Inspecting HTML tables
     # The third table has a horizontal as well as a vertical header.
     And I should see the "Population data" table
     And the "Population data" table should have 4 columns
+    And the "Population data" table should have 9 rows
     And the "Population data" table should contain:
       | Country   | Population | Surface area | Population density   |
       |           | millions   | square km    | people per square km |
@@ -75,10 +89,16 @@ Feature: Inspecting HTML tables
       | Argentina | 16                 |
       | Bahamas   | 39                 |
       | World     | 57                 |
+    # Check that we can verify non-consecutive rows by specifying the headers.
+    And the "Population data" table should contain the following rows:
+      | Andorra   | 0.1  | 500     | 164 |
+      | Argentina | 43.8 | 2780400 | 16  |
+      | Bahamas   | 0.4  | 13900   | 39  |
 
     # The fourth table has a rowspan on the first element.
     And I should see the Employees table
     And the Employees table should have 5 columns
+    And the Employees table should have 4 rows
     And the Employees table should contain:
       | Name            | Department |                | Contact information |              |
       |                 | Office     | Position       | E-mail address      | Phone number |
@@ -93,6 +113,7 @@ Feature: Inspecting HTML tables
     # The fifth table combines rowspans and colspans.
     And I should see the "Mad spanner" table
     And the "Mad spanner" table should have 6 columns
+    And the "Mad spanner" table should have 5 rows
     And the "Mad spanner" table should contain:
       | 1A |    | 1C | 1D | 1E | 1F |
       |    |    | 2C |    |    | 2F |

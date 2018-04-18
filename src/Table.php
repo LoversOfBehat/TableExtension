@@ -89,6 +89,19 @@ class Table
     }
 
     /**
+     * Returns the number of rows.
+     *
+     * @return int
+     */
+    public function getRowCount(): int
+    {
+        $data = $this->getData();
+        $data = array_map(null, ...$data);
+        $row = reset($data);
+        return count($row);
+    }
+
+    /**
      * Returns the table data in a 2-dimensional array.
      *
      * @param bool $include_metadata
@@ -215,6 +228,32 @@ class Table
     }
 
     /**
+     * Returns the data from the rows identified by the given headers.
+     *
+     * Any columns that only contain header cells are excluded from the result.
+     *
+     * @param array $headers
+     *   A 1-dimensional array containing the header values for which to return the rows.
+     *
+     * @return array[][]
+     *   An array of row data, each value an associative array of values keyed by row header.
+     */
+    public function getRowData(array $headers): array
+    {
+        $row_keys = $this->getRowKeys($headers);
+        $data = $this->getData(false, false, true);
+
+        // Filter out the unwanted rows.
+        $data = array_filter($data, function (int $key) use ($row_keys): bool {
+            return in_array($key, $row_keys);
+        }, ARRAY_FILTER_USE_KEY);
+
+        // Apply the row keys to the data.
+        $keys = array_keys($row_keys);
+        return array_combine($keys, $data);
+    }
+
+    /**
      * Returns the keys of the columns that match the given header values.
      *
      * @param string[] $header_values
@@ -248,6 +287,39 @@ class Table
     }
 
     /**
+     * Returns the keys of the rows that match the given header values.
+     *
+     * @param string[] $header_values
+     *   An array of header cell values that are used to identify the rows.
+     *
+     * @return int[]
+     *   An associative array of row keys, keyed by header value.
+     */
+    public function getRowKeys(array $header_values): array
+    {
+        $headers = $this->getRowHeaders();
+
+        $keys = [];
+        foreach ($header_values as $header_value) {
+            if ((string) $header_value != $header_value) {
+                throw new \InvalidArgumentException('The passed in headers should be an array of string-like values');
+            }
+            $result = array_keys(array_filter($headers, function (array $row) use ($header_value): bool {
+                return in_array($header_value, $row);
+            }));
+            if (empty($result)) {
+                throw new \RuntimeException("None of the rows in the table contains the header '$header_value'.");
+            }
+            if (count($result) > 1) {
+                throw new \RuntimeException("There are multiple rows in the table that contain the header '$header_value'.");
+            }
+            $keys[$header_value] = reset($result);
+        }
+
+        return $keys;
+    }
+
+    /**
      * Returns an array of header cell values ordered by columns.
      *
      * @return array[]
@@ -264,6 +336,28 @@ class Table
             foreach (array_column($data, $i) as $cell) {
                 if ($cell['type'] === 'th' && !empty($cell['value'])) {
                     $headers[$i][] = $cell['value'];
+                }
+            }
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Returns an array of header cell values ordered by rows.
+     *
+     * @return array[]
+     *   An array, each element an array containing the element texts of the header cells in the row.
+     */
+    public function getRowHeaders(): array
+    {
+        $headers = [];
+
+        foreach ($this->getData(true) as $i => $row) {
+            $headers[$i] = [];
+            foreach ($row as $j => $cell) {
+                if ($cell['type'] === 'th' && !empty($cell['value'])) {
+                    $headers[$i][$j] = $cell['value'];
                 }
             }
         }
