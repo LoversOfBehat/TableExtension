@@ -5,7 +5,10 @@ declare(strict_types = 1);
 namespace OpenEuropa\TableContext;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Session;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * An object that represents an HTML table that has been found in the page.
@@ -26,6 +29,20 @@ class Table
      * @var NodeElement
      */
     protected $element;
+
+    /**
+     * The table wrapped in a Crawler for easy traversing.
+     *
+     * @var Crawler
+     */
+    protected $crawler;
+
+    /**
+     * The plain table data in a flat array.
+     *
+     * @var array
+     */
+    protected $data;
 
     /**
      * Constructs a new Table.
@@ -71,5 +88,73 @@ class Table
             }
         }
         return $count;
+    }
+
+    /**
+     * Returns the table data in a 2-dimensional array.
+     *
+     * @return array
+     */
+    public function getData(): array
+    {
+        if (isset($this->data)) {
+            return $this->data;
+        }
+
+        $this->data = [];
+
+        $current_row = 0;
+        foreach ($this->getCrawler()->evaluate('//tr') as $row) {
+            $current_column = 0;
+            if (!$row instanceof Crawler) {
+                $row = new Crawler($row);
+            }
+
+            /** @var \DOMElement $cell */
+            foreach ($row->evaluate('./*[name()="th" or name()="td"]') as $cell) {
+                // If the data for this cell is already populated by a spanned cell, skip to the next available cell.
+                while (isset($this->data[$current_row][$current_column])) {
+                    $current_column++;
+                }
+
+                // Apply the data to the cell(s), taking into account any rowspans and colspans.
+                $colspan = (int) $cell->getAttribute('colspan') ?: 1;
+                $rowspan = (int) $cell->getAttribute('rowspan') ?: 1;
+                for ($i = 0; $i < $rowspan; $i++) {
+                    for ($j = 0; $j < $colspan; $j++) {
+                        // Leave spanned cells empty.
+                        $value = $i == 0 && $j == 0 ? $cell->nodeValue : '';
+                        $this->data[$current_row + $i][$current_column + $j] = $value;
+                    }
+                }
+                $current_column++;
+            }
+            $current_row++;
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * Returns a Crawler object containing the table.
+     *
+     * @return Crawler
+     */
+    protected function getCrawler(): Crawler
+    {
+        if (!isset($this->crawler)) {
+            // To speed up processing of large tables, retrieve the full HTML from the browser in a single operation.
+            try {
+                $html = $this->session->getDriver()->getOuterHtml($this->element->getXpath());
+            } catch (UnsupportedDriverActionException $e) {
+                // @todo Implement an alternative approach that uses DriverInterface::find().
+                throw new \RuntimeException('Driver doesn\'t support direct retrieval of HTML data.', 0, $e);
+            } catch (DriverException $e) {
+                throw new \RuntimeException('An error occurred while retrieving table data.', 0, $e);
+            }
+
+            $this->crawler = new Crawler($html);
+        }
+        return $this->crawler;
     }
 }

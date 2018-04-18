@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace OpenEuropa\TableContext\Context;
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
 use OpenEuropa\TableContext\Table;
+use PHPUnit\Framework\Assert;
 
 class TableContext extends RawMinkContext
 {
@@ -117,6 +119,22 @@ class TableContext extends RawMinkContext
             return;
         }
         throw new \RuntimeException("The $name table should have $count columns but it has $actual columns.");
+    }
+
+    /**
+     * Checks that the given table contains the given data.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that is expected to be present in the table.
+     *
+     * @Then the :name table should contain:
+     */
+    public function assertTableData(string $name, TableNode $data): void
+    {
+        $table = $this->getTable($name);
+        Assert::assertArraySubset(array_values($data->getTable()), $table->getData());
     }
 
     /**

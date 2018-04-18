@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Table test page</title>
   </head>
@@ -142,5 +143,30 @@
         </tr>
       </table>
     </div>
+    <table class="madspans">
+      <tr>
+        <td colspan="2" rowspan="3">1A</td>
+        <td>1C</td>
+        <td rowspan="2">1D</td>
+        <td rowspan="3">1E</td>
+        <td>1F</td>
+      </tr>
+      <tr>
+        <td>2C</td>
+        <td rowspan="4">2F</td>
+      </tr>
+      <tr>
+        <td colspan="2">3C</td>
+      </tr>
+      <tr>
+        <td>4A</td>
+        <td colspan="2">4B</td>
+        <td colspan="2">4D</td>
+      </tr>
+      <tr>
+        <td colspan="2">5A</td>
+        <td colspan="3">5C</td>
+      </tr>
+    </table>
   </body>
 </html>

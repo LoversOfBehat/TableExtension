@@ -9,6 +9,7 @@ default:
               'Algarve': 'table:nth-of-type(2)'
               'Population data': 'table.countries'
               'Employees': '.employees > table'
+              'Mad spanner': '.madspans'
   extensions:
     Behat\MinkExtension:
       goutte: ~
