@@ -1,6 +1,6 @@
 Feature: Inspecting HTML tables
   In order to verify that the functionality is correctly implemented
-  As a developer for the TableContext library
+  As a developer for the TableExtension library
   I need to check that the step definitions work as expected
 
   Scenario: Check if any table on the page matches certain characteristics

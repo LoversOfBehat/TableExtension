@@ -2,35 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableContext\Context;
+namespace OpenEuropa\TableExtension\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Element\NodeElement;
-use Behat\MinkExtension\Context\RawMinkContext;
-use OpenEuropa\TableContext\Exception\TableNotFoundException;
-use OpenEuropa\TableContext\Table;
+use OpenEuropa\TableExtension\Exception\TableNotFoundException;
 use PHPUnit\Framework\Assert;
 
-class TableContext extends RawMinkContext
+class TableContext extends RawTableContext
 {
-
-    /**
-     * An associative array of table selectors, keyed by table name.
-     *
-     * @var array
-     */
-    protected $tableMap;
-
-    /**
-     * Constructs a new TableContext object.
-     *
-     * @param array $tableMap
-     *   Optional associative array of table CSS selectors, keyed by table name.
-     */
-    public function __construct(array $tableMap = [])
-    {
-        $this->tableMap = $tableMap;
-    }
 
     /**
      * Checks that there is at least 1 table on the page.
@@ -256,56 +235,5 @@ class TableContext extends RawMinkContext
                 throw new \RuntimeException("A table with $count rows is present on the page, but should not be.");
             }
         }
-    }
-
-    /**
-     * Returns the table that corresponds with the given human readable name.
-     *
-     * @param string $name
-     *   The human readable name for the table.
-     *
-     * @return Table
-     */
-    protected function getTable(string $name): Table
-    {
-        if (!array_key_exists($name, $this->tableMap)) {
-            throw new \RuntimeException("The '$name' table is not defined in behat.yml.");
-        }
-        $selector = $this->tableMap[$name];
-        $element = $this->getSession()->getPage()->find('css', $selector);
-
-        if (empty($element)) {
-            throw new TableNotFoundException("The '$name' table is not found in the page.");
-        }
-
-        $tag_name = $element->getTagName();
-        if ($tag_name !== 'table') {
-            throw new \RuntimeException("The '$name' element is not a table but a $tag_name.");
-        }
-
-        return new Table($this->getSession(), $element->getXpath());
-    }
-
-    /**
-     * Returns the tables that are present in the page.
-     *
-     * @return Table[]
-     *   An array of tables.
-     */
-    protected function getTables(): array
-    {
-        return array_map(function (NodeElement $element): Table {
-            return new Table($this->getSession(), $element->getXpath());
-        }, $this->getSession()->getPage()->findAll('css', 'table'));
-    }
-
-    /**
-     * Returns the number of tables that are present in the page.
-     *
-     * @return int
-     */
-    protected function getTableCount(): int
-    {
-        return count($this->getTables());
     }
 }

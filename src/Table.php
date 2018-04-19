@@ -2,9 +2,8 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableContext;
+namespace OpenEuropa\TableExtension;
 
-use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Session;

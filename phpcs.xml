@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="TableContext">
-  <description>PHP CodeSniffer configuration for the TableContext project.</description>
+<ruleset name="TableExtension">
+  <description>PHP CodeSniffer configuration for the TableExtension project.</description>
   <rule ref="PSR2">
     <exclude name="Generic.Files.LineLength.TooLong" />
   </rule>
