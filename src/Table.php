@@ -132,7 +132,7 @@ class Table
         // Filter out the metadata, keeping only the raw values.
         foreach ($data as $key => $row) {
             $data[$key] = array_map(function (array $cell): string {
-                return (string) $cell['value'];
+                return (string) trim($cell['value']);
             }, $row);
         }
         return $data;
