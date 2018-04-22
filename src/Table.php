@@ -4,9 +4,10 @@ declare(strict_types = 1);
 
 namespace OpenEuropa\TableExtension;
 
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Mink\Session;
+use OpenEuropa\TableExtension\Event\AfterTableFetchEvent;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -16,11 +17,18 @@ class Table
 {
 
     /**
-     * The Mink session.
+     * The Mink driver.
      *
-     * @var Session
+     * @var DriverInterface
      */
-    protected $session;
+    protected $driver;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var TableEventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * The XPath expression that can be used to retrieve the table.
@@ -46,14 +54,17 @@ class Table
     /**
      * Constructs a new Table.
      *
-     * @param Session $session
-     *   The Mink session.
+     * @param DriverInterface $driver
+     *   The Mink driver.
+     * @param TableEventDispatcherInterface $dispatcher
+     *   The event dispatcher.
      * @param string $xpath
      *   The XPath expression that can be used to retrieve the table.
      */
-    public function __construct(Session $session, string $xpath)
+    public function __construct(DriverInterface $driver, TableEventDispatcherInterface $dispatcher, string $xpath)
     {
-        $this->session = $session;
+        $this->driver = $driver;
+        $this->dispatcher = $dispatcher;
         $this->xpath = $xpath;
     }
 
@@ -356,7 +367,7 @@ class Table
         if (!isset($this->crawler)) {
             // To speed up processing of large tables, retrieve the full HTML from the browser in a single operation.
             try {
-                $html = $this->session->getDriver()->getOuterHtml($this->xpath);
+                $html = $this->driver->getOuterHtml($this->xpath);
             } catch (UnsupportedDriverActionException $e) {
                 // @todo Implement an alternative approach that uses DriverInterface::find().
                 throw new \RuntimeException('Driver doesn\'t support direct retrieval of HTML data.', 0, $e);
@@ -364,7 +375,13 @@ class Table
                 throw new \RuntimeException('An error occurred while retrieving table data.', 0, $e);
             }
 
-            $this->crawler = new Crawler($html);
+            // Allow to alter the table before running inspections on it.
+            $html_container = new HtmlContainer($html);
+            $event = new AfterTableFetchEvent($html_container);
+            $this->dispatcher->dispatch($event);
+
+            $crawler = new Crawler($html_container->getHtml());
+            $this->crawler = $crawler;
         }
         return $this->crawler;
     }

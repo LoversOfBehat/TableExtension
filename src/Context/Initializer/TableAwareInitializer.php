@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Initializer\ContextInitializer;
 use Behat\Testwork\Hook\HookDispatcher;
 use OpenEuropa\TableExtension\Context\TableAwareInterface;
+use OpenEuropa\TableExtension\EnvironmentContainer;
 
 class TableAwareInitializer implements ContextInitializer
 {
@@ -20,6 +21,13 @@ class TableAwareInitializer implements ContextInitializer
     protected $dispatcher;
 
     /**
+     * The service that references the Behat test environment.
+     *
+     * @var EnvironmentContainer
+     */
+    protected $container;
+
+    /**
      * The TableContext configuration array.
      *
      * @var array
@@ -30,10 +38,16 @@ class TableAwareInitializer implements ContextInitializer
      * Constructs a new TableAwareInitializer object.
      *
      * @param \Behat\Testwork\Hook\HookDispatcher $dispatcher
+     *   The Behat hook dispatcher.
+     * @param EnvironmentContainer $container
+     *   The service that references the Behat test environment.
+     * @param array $config
+     *   The configuration for the extension, as defined in behat.yml.
      */
-    public function __construct(HookDispatcher $dispatcher, array $config)
+    public function __construct(HookDispatcher $dispatcher, EnvironmentContainer $container, array $config)
     {
         $this->dispatcher = $dispatcher;
+        $this->container = $container;
         $this->config = $config;
     }
 
@@ -46,6 +60,7 @@ class TableAwareInitializer implements ContextInitializer
             return;
         }
         $context->setDispatcher($this->dispatcher);
+        $context->setEnvironmentContainer($this->container);
         $table_map = !empty($this->config['table_map']) ? $this->config['table_map'] : [];
         $context->setTableMap($table_map);
     }

@@ -6,9 +6,17 @@ namespace OpenEuropa\TableExtension\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Testwork\Hook\HookDispatcher;
+use OpenEuropa\TableExtension\EnvironmentContainer;
 
 interface TableAwareInterface extends Context
 {
+
+    /**
+     * Gets the event dispatcher.
+     *
+     * @return HookDispatcher
+     */
+    public function getDispatcher(): HookDispatcher;
 
     /**
      * Sets the event dispatcher.
@@ -16,6 +24,13 @@ interface TableAwareInterface extends Context
      * @param HookDispatcher $dispatcher
      */
     public function setDispatcher(HookDispatcher $dispatcher): void;
+
+    /**
+     * Sets the environment container.
+     *
+     * @param EnvironmentContainer $container
+     */
+    public function setEnvironmentContainer(EnvironmentContainer $container): void;
 
     /**
      * Sets the table map.

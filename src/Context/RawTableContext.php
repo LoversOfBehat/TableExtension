@@ -6,9 +6,13 @@ namespace OpenEuropa\TableExtension\Context;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\Hook\HookDispatcher;
+use OpenEuropa\TableExtension\BehatHookTableEventDispatcher;
+use OpenEuropa\TableExtension\EnvironmentContainer;
 use OpenEuropa\TableExtension\Exception\TableNotFoundException;
 use OpenEuropa\TableExtension\Table;
+use OpenEuropa\TableExtension\TableEventDispatcherInterface;
 
 class RawTableContext extends RawMinkContext implements TableAwareInterface
 {
@@ -28,11 +32,44 @@ class RawTableContext extends RawMinkContext implements TableAwareInterface
     protected $dispatcher;
 
     /**
+     * The container that references the Behat test environment.
+     *
+     * @var EnvironmentContainer
+     */
+    protected $environmentContainer;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDispatcher(): HookDispatcher
+    {
+        return $this->dispatcher;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setDispatcher(HookDispatcher $dispatcher): void
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * Returns the Behat test environment.
+     *
+     * @return Environment
+     */
+    public function getEnvironment(): Environment
+    {
+        return $this->environmentContainer->getEnvironment();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEnvironmentContainer(EnvironmentContainer $container): void
+    {
+        $this->environmentContainer = $container;
     }
 
     /**
@@ -68,7 +105,7 @@ class RawTableContext extends RawMinkContext implements TableAwareInterface
             throw new \RuntimeException("The '$name' element is not a table but a $tag_name.");
         }
 
-        return new Table($this->getSession(), $element->getXpath());
+        return $this->createTable($element->getXpath());
     }
 
     /**
@@ -80,8 +117,31 @@ class RawTableContext extends RawMinkContext implements TableAwareInterface
     protected function getTables(): array
     {
         return array_map(function (NodeElement $element): Table {
-            return new Table($this->getSession(), $element->getXpath());
+            return $this->createTable($element->getXpath());
         }, $this->getSession()->getPage()->findAll('css', 'table'));
+    }
+
+    /**
+     * Returns a freshly instantiated table object for the given XPath expression.
+     *
+     * @param string $xpath
+     *   The XPath expression that identifies the table in the document.
+     *
+     * @return Table
+     */
+    protected function createTable(string $xpath): Table
+    {
+        return new Table($this->getSession()->getDriver(), $this->createTableDispatcher(), $xpath);
+    }
+
+    /**
+     * Returns a freshly instantiated event dispatcher.
+     *
+     * @return TableEventDispatcherInterface
+     */
+    protected function createTableDispatcher(): TableEventDispatcherInterface
+    {
+        return new BehatHookTableEventDispatcher($this->getEnvironment(), $this, $this->getDispatcher());
     }
 
     /**

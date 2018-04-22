@@ -2,6 +2,7 @@ default:
   suites:
     default:
       contexts:
+        - FeatureContext
         - Behat\MinkExtension\Context\MinkContext
         - OpenEuropa\TableExtension\Context\TableContext
   extensions:
