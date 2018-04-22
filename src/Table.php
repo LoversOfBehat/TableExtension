@@ -131,8 +131,7 @@ class Table
         // Filter out the metadata, keeping only the raw values.
         foreach ($data as $key => $row) {
             $data[$key] = array_map(function (array $cell): string {
-                // Strip any extraneous white space.
-                return (string) trim(preg_replace('/\s+/', ' ', $cell['value']));
+                return $this->stripWhiteSpace($cell['value']);
             }, $row);
         }
         return $data;
@@ -317,7 +316,7 @@ class Table
             $headers[$i] = [];
             foreach (array_column($data, $i) as $cell) {
                 if ($cell['type'] === 'th' && !empty($cell['value'])) {
-                    $headers[$i][] = $cell['value'];
+                    $headers[$i][] = $this->stripWhiteSpace($cell['value']);
                 }
             }
         }
@@ -339,7 +338,7 @@ class Table
             $headers[$i] = [];
             foreach ($row as $j => $cell) {
                 if ($cell['type'] === 'th' && !empty($cell['value'])) {
-                    $headers[$i][$j] = $cell['value'];
+                    $headers[$i][$j] = $this->stripWhiteSpace($cell['value']);
                 }
             }
         }
@@ -368,5 +367,20 @@ class Table
             $this->crawler = new Crawler($html);
         }
         return $this->crawler;
+    }
+
+    /**
+     * Strips extraneous whitespace from the given string.
+     *
+     * This will strip any leading and trailing whitespace, convert newlines to spaces, and replaces
+     * multiple consecutive whitespace instances to a single instance.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function stripWhiteSpace(string $value): string
+    {
+        return (string) trim(preg_replace('/\s+/', ' ', $value));
     }
 }
