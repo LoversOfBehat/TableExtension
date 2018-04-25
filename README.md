@@ -113,3 +113,16 @@ For a more complete example, see
 [tables.feature](features/tables.feature). Or check
 [TableContext.php](src/Context/TableContext.php)
 itself for the full list of available steps.
+
+Development
+-----------
+
+Running tests locally:
+
+```
+$ git clone git@github.com:openeuropa/TableExtension.git table-extension
+$ cd table-extension
+$ composer install
+$ php -S localhost:8000 -t fixtures &
+$ ./vendor/bin/behat
+```
