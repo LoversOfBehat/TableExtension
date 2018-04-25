@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace OpenEuropa\TableExtension\Hook\Context\Annotation;
 
 use Behat\Behat\Context\Annotation\AnnotationReader;
+use OpenEuropa\TableExtension\Hook\Call\AfterTableFetch;
 use ReflectionMethod;
 
 /**
@@ -24,7 +25,7 @@ final class HookAnnotationReader implements AnnotationReader
      * @var string[]
      */
     private static $classes = array(
-        'aftertablefetch'    => 'OpenEuropa\TableExtension\Hook\Call\AfterTableFetch',
+        'aftertablefetch'    => AfterTableFetch::class,
     );
 
     /**

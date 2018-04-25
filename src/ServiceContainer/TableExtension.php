@@ -8,6 +8,10 @@ use Behat\Behat\Context\ServiceContainer\ContextExtension;
 use Behat\Behat\EventDispatcher\ServiceContainer\EventDispatcherExtension;
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
+use OpenEuropa\TableExtension\Context\Initializer\TableAwareInitializer;
+use OpenEuropa\TableExtension\EnvironmentContainer;
+use OpenEuropa\TableExtension\Hook\Context\Annotation\HookAnnotationReader;
+use OpenEuropa\TableExtension\Listener\EnvironmentListener;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -55,18 +59,18 @@ class TableExtension implements ExtensionInterface
         $container->setParameter('table.parameters', $config);
 
         // Define the environment container service.
-        $definition = new Definition('OpenEuropa\TableExtension\EnvironmentContainer');
+        $definition = new Definition(EnvironmentContainer::class);
         $container->setDefinition('table_extension.environment_container', $definition);
 
         // Define the event listener that captures the Behat test environment and stores it in the container.
-        $definition = new Definition('OpenEuropa\TableExtension\Listener\EnvironmentListener', [
+        $definition = new Definition(EnvironmentListener::class, [
             new Reference('table_extension.environment_container'),
         ]);
         $definition->addTag(EventDispatcherExtension::SUBSCRIBER_TAG, array('priority' => 0));
         $container->setDefinition('table_extension.environment_listener', $definition);
 
         // Define the context initializer.
-        $definition = new Definition('OpenEuropa\TableExtension\Context\Initializer\TableAwareInitializer', [
+        $definition = new Definition(TableAwareInitializer::class, [
             new Reference('hook.dispatcher'),
             new Reference('table_extension.environment_container'),
             '%table.parameters%',
@@ -75,7 +79,7 @@ class TableExtension implements ExtensionInterface
         $container->setDefinition('table_extension.context_initializer', $definition);
 
         // Define the hook annotation reader.
-        $definition = new Definition('OpenEuropa\TableExtension\Hook\Context\Annotation\HookAnnotationReader');
+        $definition = new Definition(HookAnnotationReader::class);
         $definition->addTag(ContextExtension::ANNOTATION_READER_TAG);
         $container->setDefinition('table_extension.hook_annotation_reader', $definition);
     }
