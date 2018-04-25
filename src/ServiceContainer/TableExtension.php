@@ -31,7 +31,7 @@ class TableExtension implements ExtensionInterface
             children()->
                 arrayNode('table_map')->
                     useAttributeAsKey('key')->
-                    prototype('variable')->
+                    variablePrototype()->
                 end()->
             end();
     }
