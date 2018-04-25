@@ -67,7 +67,7 @@ Given this example table:
   </tr>
 </table>
 
-And we have added the table to the `tableMap` in `behat.yml`:
+And we have added the table to the `table_map` in `behat.yml`:
 
 ```
 suites:
