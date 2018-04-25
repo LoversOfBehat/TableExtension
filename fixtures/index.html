@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Table test page</title>
+  </head>
+  <body>
+    <table id="simple-table">
+      <tr>
+        <th>Header 1</th>
+        <th>Header 2</th>
+        <th>Header 3</th>
+      </tr>
+      <tr>
+        <td>
+          <span class="data-containing-whitespace">
+            <strong>
+              Row     1
+            </strong>
+          </span>
+          <span>
+            Col 1
+          </span>
+        </td>
+        <td>Row 1 Col 2</td>
+        <td>
+          Row 1 Col 3
+          <span class="visually-hidden">Sort ascending</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Row 2 Col 1</td>
+        <td>Row 2 Col 2</td>
+        <td>Row 2 Col 3</td>
+      </tr>
+    </table>
+    <table>
+      <caption>
+        <p>Information about Algarve</p>
+      </caption>
+      <tr>
+        <th>Country</th>
+        <td>Portugal</td>
+      </tr>
+      <tr>
+        <th>Capital</th>
+        <td>Faro</td>
+      </tr>
+      <tr>
+        <th>Highest point</th>
+        <td>F&oacute;ia</td>
+      </tr>
+      <tr>
+        <th>Lowest point</th>
+        <td>Sea level</td>
+      </tr>
+      <tr>
+        <th>Area</th>
+        <td>4996.80km&sup2;</td>
+      </tr>
+    </table>
+    <table class="countries">
+      <caption>
+        <p>Country population data</p>
+      </caption>
+      <thead>
+        <tr>
+          <th rowspan="2">Country</th>
+          <th>Population</th>
+          <th>Surface area</th>
+          <th>Population density</th>
+        </tr>
+        <tr>
+          <th>millions</th>
+          <th>square km</th>
+          <th>people per square km</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Albania</th>
+          <td>2.9</td>
+          <td>28800</td>
+          <td>105</td>
+        </tr>
+        <tr>
+          <th>Andorra</th>
+          <td>0.1</td>
+          <td>500</td>
+          <td>164</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <th>Algeria</th>
+          <td>40.6</td>
+          <td>2381700</td>
+          <td>17</td>
+        </tr>
+        <tr>
+          <th>Angola</th>
+          <td>28.8</td>
+          <td>1246700</td>
+          <td>23</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <th>Argentina</th>
+          <td>43.8</td>
+          <td>2780400</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <th>Bahamas</th>
+          <td>0.4</td>
+          <td>13900</td>
+          <td>39</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>World</th>
+          <td>7442.1</td>
+          <td>134325100</td>
+          <td>57</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="employees">
+      <table>
+        <tr>
+          <th rowspan="2">Name</th>
+          <th colspan="2">Department</th>
+          <th colspan="2">Contact information</th>
+        </tr>
+        <tr>
+          <th>
+            Office
+            <span class="visually-hidden">Sort ascending</span>
+          </th>
+          <th>Position</th>
+          <th>E-mail address</th>
+          <th>Phone number</th>
+        </tr>
+        <tr>
+          <td><strong>Lelisa Ericsson</strong></td>
+          <td>Healthcare</td>
+          <td>Nurse</td>
+          <td>lelisa@example.com</td>
+          <td>555-1234567</td>
+        </tr>
+        <tr>
+          <td><strong>Genista Sumner</strong></td>
+          <td>Science</td>
+          <td>Anthropologist</td>
+          <td>genista@example.com</td>
+          <td>555-987654</td>
+        </tr>
+      </table>
+    </div>
+    <table class="madspans">
+      <tr>
+        <td colspan="2" rowspan="3">1A</td>
+        <td>1C</td>
+        <td rowspan="2">1D</td>
+        <td rowspan="3">1E</td>
+        <td>1F</td>
+      </tr>
+      <tr>
+        <td>2C</td>
+        <td rowspan="4">2F</td>
+      </tr>
+      <tr>
+        <td colspan="2">3C</td>
+      </tr>
+      <tr>
+        <td>4A</td>
+        <td colspan="2">4B</td>
+        <td colspan="2">4D</td>
+      </tr>
+      <tr>
+        <td colspan="2">5A</td>
+        <td colspan="3">5C</td>
+      </tr>
+    </table>
+  </body>
+</html>

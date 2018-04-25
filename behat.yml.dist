@@ -1,0 +1,18 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+        - OpenEuropa\TableExtension\Context\TableContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      base_url: http://localhost:8000
+    OpenEuropa\TableExtension:
+      table_map:
+        'simple': '#simple-table'
+        'Algarve': 'table:nth-of-type(2)'
+        'Population data': 'table.countries'
+        'Employees': '.employees > table'
+        'Mad spanner': '.madspans'

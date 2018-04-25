@@ -1,5 +1,5 @@
-TableContext
-============
+TableExtension
+==============
 
 This library provides step definitions for checking HTML5 tables in
 Behat scenarios.
@@ -14,16 +14,18 @@ $ composer require openeuropa/table-context
 Configuration
 -------------
 
-Add the context to your test suite in `behat.yml`:
+Add the extension and context to your test suite in `behat.yml`:
 
 ```
 suites:
   default:
     contexts:
-      - OpenEuropa\TableContext\Context\TableContext:
-          tableMap:
-            'Users': 'page.users .main-content table'
-            'Country codes': 'table#country-codes'
+      - OpenEuropa\TableExtension\Context\TableContext:
+  extensions:
+    OpenEuropa\TableExtension:
+      table_map:
+        'Users': 'page.users .main-content table'
+        'Country codes': 'table#country-codes'
 ```
 
 ### Options
@@ -68,12 +70,12 @@ Given this example table:
 And we have added the table to the `tableMap` in `behat.yml`:
 
 ```
-contexts:
-  - OpenEuropa\TableContext\Context\TableContext:
-      tableMap:
+suites:
+  extensions:
+    OpenEuropa\TableExtension:
+      table_map:
         'Employees': '#employees'
 ```
-
 
 Then we can use steps such as these to check the table:
 
@@ -111,3 +113,16 @@ For a more complete example, see
 [tables.feature](features/tables.feature). Or check
 [TableContext.php](src/Context/TableContext.php)
 itself for the full list of available steps.
+
+Development
+-----------
+
+Running tests locally:
+
+```
+$ git clone git@github.com:openeuropa/TableExtension.git table-extension
+$ cd table-extension
+$ composer install
+$ php -S localhost:8000 -t fixtures &
+$ ./vendor/bin/behat
+```
