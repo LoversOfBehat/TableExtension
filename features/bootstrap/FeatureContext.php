@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 use Behat\Behat\Context\Context;
-use OpenEuropa\TableExtension\Hook\Scope\AfterTableFetchScope;
+use LoversOfBehat\TableExtension\Hook\Scope\AfterTableFetchScope;
 
 /**
  * Contains step definitions and hook implementations for testing TableExtension.

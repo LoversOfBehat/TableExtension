@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension;
+namespace LoversOfBehat\TableExtension;
 
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use OpenEuropa\TableExtension\Event\AfterTableFetchEvent;
+use LoversOfBehat\TableExtension\Event\AfterTableFetchEvent;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**

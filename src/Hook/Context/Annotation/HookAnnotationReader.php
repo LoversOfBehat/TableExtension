@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Hook\Context\Annotation;
+namespace LoversOfBehat\TableExtension\Hook\Context\Annotation;
 
 use Behat\Behat\Context\Annotation\AnnotationReader;
-use OpenEuropa\TableExtension\Hook\Call\AfterTableFetch;
+use LoversOfBehat\TableExtension\Hook\Call\AfterTableFetch;
 use ReflectionMethod;
 
 /**

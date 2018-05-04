@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Context\Initializer;
+namespace LoversOfBehat\TableExtension\Context\Initializer;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Initializer\ContextInitializer;
 use Behat\Testwork\Hook\HookDispatcher;
-use OpenEuropa\TableExtension\Context\TableAwareInterface;
-use OpenEuropa\TableExtension\EnvironmentContainer;
+use LoversOfBehat\TableExtension\Context\TableAwareInterface;
+use LoversOfBehat\TableExtension\EnvironmentContainer;
 
 class TableAwareInitializer implements ContextInitializer
 {

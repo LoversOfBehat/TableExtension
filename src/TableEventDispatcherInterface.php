@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension;
+namespace LoversOfBehat\TableExtension;
 
-use OpenEuropa\TableExtension\Event\TableEventInterface;
+use LoversOfBehat\TableExtension\Event\TableEventInterface;
 
 /**
  * Interface for dispatching events.

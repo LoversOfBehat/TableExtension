@@ -2,16 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\ServiceContainer;
+namespace LoversOfBehat\TableExtension\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension;
 use Behat\Behat\EventDispatcher\ServiceContainer\EventDispatcherExtension;
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
-use OpenEuropa\TableExtension\Context\Initializer\TableAwareInitializer;
-use OpenEuropa\TableExtension\EnvironmentContainer;
-use OpenEuropa\TableExtension\Hook\Context\Annotation\HookAnnotationReader;
-use OpenEuropa\TableExtension\Listener\EnvironmentListener;
+use LoversOfBehat\TableExtension\Context\Initializer\TableAwareInitializer;
+use LoversOfBehat\TableExtension\EnvironmentContainer;
+use LoversOfBehat\TableExtension\Hook\Context\Annotation\HookAnnotationReader;
+use LoversOfBehat\TableExtension\Listener\EnvironmentListener;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

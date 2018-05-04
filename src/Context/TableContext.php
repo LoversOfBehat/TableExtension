@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Context;
+namespace LoversOfBehat\TableExtension\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use OpenEuropa\TableExtension\Exception\TableNotFoundException;
+use LoversOfBehat\TableExtension\Exception\TableNotFoundException;
 use PHPUnit\Framework\Assert;
 
 class TableContext extends RawTableContext

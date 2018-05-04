@@ -1,5 +1,5 @@
 {
-    "name": "openeuropa/table-extension",
+    "name": "lovers-of-behat/table-extension",
     "description": "Behat extension to inspect HTML tables",
     "require": {
         "behat/behat": "^3.4",
@@ -10,7 +10,7 @@
         "symfony/dom-crawler": "^2.8|^3.0|^4.0",
         "symfony/event-dispatcher": "^2.0|^3.0|^4.0"
     },
-    "license": ["EUPL", "MIT"],
+    "license": ["MIT"],
     "authors": [
         {
             "name": "Pieter Frenssen",
@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "OpenEuropa\\TableExtension\\": "src"
+            "LoversOfBehat\\TableExtension\\": "src"
         }
     },
     "require-dev": {

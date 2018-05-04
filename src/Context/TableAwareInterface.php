@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Context;
+namespace LoversOfBehat\TableExtension\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Testwork\Hook\HookDispatcher;
-use OpenEuropa\TableExtension\EnvironmentContainer;
+use LoversOfBehat\TableExtension\EnvironmentContainer;
 
 interface TableAwareInterface extends Context
 {

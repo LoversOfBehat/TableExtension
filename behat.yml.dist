@@ -4,12 +4,12 @@ default:
       contexts:
         - FeatureContext
         - Behat\MinkExtension\Context\MinkContext
-        - OpenEuropa\TableExtension\Context\TableContext
+        - LoversOfBehat\TableExtension\Context\TableContext
   extensions:
     Behat\MinkExtension:
       goutte: ~
       base_url: http://localhost:8000
-    OpenEuropa\TableExtension:
+    LoversOfBehat\TableExtension:
       table_map:
         'simple': '#simple-table'
         'Algarve': 'table:nth-of-type(2)'

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension;
+namespace LoversOfBehat\TableExtension;
 
 /**
  * Class that contains a HTML string.

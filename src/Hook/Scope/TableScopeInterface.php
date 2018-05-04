@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Hook\Scope;
+namespace LoversOfBehat\TableExtension\Hook\Scope;
 
 use Behat\Testwork\Hook\Scope\HookScope;
 

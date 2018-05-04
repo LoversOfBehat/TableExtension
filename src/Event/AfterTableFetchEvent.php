@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Event;
+namespace LoversOfBehat\TableExtension\Event;
 
-use OpenEuropa\TableExtension\HtmlContainer;
+use LoversOfBehat\TableExtension\HtmlContainer;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

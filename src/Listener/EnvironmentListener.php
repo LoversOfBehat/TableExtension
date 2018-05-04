@@ -1,10 +1,10 @@
 <?php
 
-namespace OpenEuropa\TableExtension\Listener;
+namespace LoversOfBehat\TableExtension\Listener;
 
 use Behat\Behat\EventDispatcher\Event\BeforeFeatureTested;
 use Behat\Behat\EventDispatcher\Event\FeatureTested;
-use OpenEuropa\TableExtension\EnvironmentContainer;
+use LoversOfBehat\TableExtension\EnvironmentContainer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

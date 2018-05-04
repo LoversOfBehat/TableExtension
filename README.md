@@ -8,7 +8,7 @@ Installation
 ------------
 
 ```
-$ composer require openeuropa/table-context
+$ composer require lovers-of-behat/table-extension
 ```
 
 Configuration
@@ -20,9 +20,9 @@ Add the extension and context to your test suite in `behat.yml`:
 suites:
   default:
     contexts:
-      - OpenEuropa\TableExtension\Context\TableContext:
+      - LoversOfBehat\TableExtension\Context\TableContext:
   extensions:
-    OpenEuropa\TableExtension:
+    LoversOfBehat\TableExtension:
       table_map:
         'Users': 'page.users .main-content table'
         'Country codes': 'table#country-codes'
@@ -72,7 +72,7 @@ And we have added the table to the `table_map` in `behat.yml`:
 ```
 suites:
   extensions:
-    OpenEuropa\TableExtension:
+    LoversOfBehat\TableExtension:
       table_map:
         'Employees': '#employees'
 ```
@@ -120,9 +120,16 @@ Development
 Running tests locally:
 
 ```
-$ git clone git@github.com:openeuropa/TableExtension.git table-extension
+$ git clone git@github.com:LoversOfBehat/TableExtension.git table-extension
 $ cd table-extension
 $ composer install
 $ php -S localhost:8000 -t fixtures &
 $ ./vendor/bin/behat
 ```
+
+Credits
+-------
+
+Development of this extension has been sponsored by the Directorate-General for
+Informatics (DIGIT) of the European Commission, as part of the OpenEuropa
+initiative.

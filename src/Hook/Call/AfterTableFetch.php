@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Hook\Call;
+namespace LoversOfBehat\TableExtension\Hook\Call;
 
 use Behat\Testwork\Hook\Call\RuntimeFilterableHook;
 use Behat\Testwork\Hook\Scope\HookScope;
-use OpenEuropa\TableExtension\Hook\Scope\AfterTableFetchScope;
+use LoversOfBehat\TableExtension\Hook\Scope\AfterTableFetchScope;
 
 class AfterTableFetch extends RuntimeFilterableHook
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Hook\Scope;
+namespace LoversOfBehat\TableExtension\Hook\Scope;
 
 use Behat\Behat\Context\Context;
 use Behat\Testwork\Environment\Environment;
-use OpenEuropa\TableExtension\HtmlContainer;
+use LoversOfBehat\TableExtension\HtmlContainer;
 
 /**
  * Hook scope for hooks that concern HTML5 tables.

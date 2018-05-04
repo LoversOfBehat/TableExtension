@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension;
+namespace LoversOfBehat\TableExtension;
 
 use Behat\Testwork\Environment\Environment;
 

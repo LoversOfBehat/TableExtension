@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Exception;
+namespace LoversOfBehat\TableExtension\Exception;
 
 class TableNotFoundException extends \RuntimeException
 {

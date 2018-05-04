@@ -2,17 +2,17 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension\Context;
+namespace LoversOfBehat\TableExtension\Context;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\Hook\HookDispatcher;
-use OpenEuropa\TableExtension\BehatHookTableEventDispatcher;
-use OpenEuropa\TableExtension\EnvironmentContainer;
-use OpenEuropa\TableExtension\Exception\TableNotFoundException;
-use OpenEuropa\TableExtension\Table;
-use OpenEuropa\TableExtension\TableEventDispatcherInterface;
+use LoversOfBehat\TableExtension\BehatHookTableEventDispatcher;
+use LoversOfBehat\TableExtension\EnvironmentContainer;
+use LoversOfBehat\TableExtension\Exception\TableNotFoundException;
+use LoversOfBehat\TableExtension\Table;
+use LoversOfBehat\TableExtension\TableEventDispatcherInterface;
 
 class RawTableContext extends RawMinkContext implements TableAwareInterface
 {

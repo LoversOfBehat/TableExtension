@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace OpenEuropa\TableExtension;
+namespace LoversOfBehat\TableExtension;
 
 use Behat\Behat\Context\Context;
 use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\Hook\HookDispatcher;
-use OpenEuropa\TableExtension\Event\TableEventInterface;
-use OpenEuropa\TableExtension\Hook\Scope\AfterTableFetchScope;
+use LoversOfBehat\TableExtension\Event\TableEventInterface;
+use LoversOfBehat\TableExtension\Hook\Scope\AfterTableFetchScope;
 
 /**
  * Dispatches events using Behat's hook dispatcher.
