@@ -5,8 +5,9 @@ declare(strict_types = 1);
 namespace LoversOfBehat\TableExtension\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use LoversOfBehat\TableExtension\AssertArraySubset;
+use LoversOfBehat\TableExtension\Exception\NoArraySubsetException;
 use LoversOfBehat\TableExtension\Exception\TableNotFoundException;
-use PHPUnit\Framework\Assert;
 
 class TableContext extends RawTableContext
 {
@@ -168,7 +169,7 @@ class TableContext extends RawTableContext
     public function assertTableData(string $name, TableNode $data): void
     {
         $table = $this->getTable($name);
-        Assert::assertArraySubset($data->getRows(), $table->getData());
+        $this->assertArraySubset($data->getRows(), $table->getData());
     }
 
     /**
@@ -184,7 +185,7 @@ class TableContext extends RawTableContext
     public function assertTableColumnData(string $name, TableNode $data): void
     {
         $table = $this->getTable($name);
-        Assert::assertArraySubset($data->getColumnsHash(), array_values($table->getColumnData($data->getRow(0))));
+        $this->assertArraySubset($data->getColumnsHash(), array_values($table->getColumnData($data->getRow(0))));
     }
 
     /**
@@ -200,7 +201,7 @@ class TableContext extends RawTableContext
     public function assertTableRowData(string $name, TableNode $data): void
     {
         $table = $this->getTable($name);
-        Assert::assertArraySubset($data->getRowsHash(), $table->getRowData($data->getColumn(0)));
+        $this->assertArraySubset($data->getRowsHash(), $table->getRowData($data->getColumn(0)));
     }
 
     /**
@@ -235,5 +236,23 @@ class TableContext extends RawTableContext
                 throw new \RuntimeException("A table with $count rows is present on the page, but should not be.");
             }
         }
+    }
+
+    /**
+     * Checks that the given array contains the given subset.
+     *
+     * @param array $subset
+     *   The subset that is expected to exist in the array.
+     * @param array $array
+     *   The array.
+     * @param bool $strict
+     *   Whether to perform strict data type checking when comparing the two arrays.
+     *
+     * @throws NoArraySubsetException
+     */
+    protected function assertArraySubset(array $subset, array $array, bool $strict = false): void
+    {
+        $assert = new AssertArraySubset($subset, $strict);
+        $assert->evaluate($array);
     }
 }
