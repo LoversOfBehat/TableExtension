@@ -45,14 +45,17 @@ Feature: Inspecting HTML tables
       | Header 1    | Header 2    | Header 3    |
       | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
       | Row 2 Col 1 | Row 2 Col 2 | Row 2 Col 3 |
-    # Check that we can verify subsets of the table.
+    # Check that we can verify subsets of the table, regardless of the order in which they appear.
     And the simple table should contain:
-      | Header 1    | Header 2    |
-      | Row 1 Col 1 | Row 1 Col 2 |
+      | Header 1    | Header 2    | Header 3    |
+      | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
+    And the simple table should contain:
+      | Header 1    | Header 3    |
+      | Row 2 Col 1 | Row 2 Col 3 |
     And the simple table should contain:
       | Header 1    |
-      | Row 1 Col 1 |
       | Row 2 Col 1 |
+      | Row 1 Col 1 |
 
     # The second table has 2 columns, of which the first is a vertical header.
     And I should see the Algarve table
