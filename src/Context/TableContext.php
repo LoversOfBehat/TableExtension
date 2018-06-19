@@ -159,6 +159,8 @@ class TableContext extends RawTableContext
     /**
      * Checks that the given table contains the given data.
      *
+     * This checks that the data is present in the table, ignoring row and column ordering.
+     *
      * @param string $name
      *   The human readable name for the table.
      * @param TableNode $data
