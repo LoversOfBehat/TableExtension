@@ -94,7 +94,7 @@ class TableContext extends RawTableContext
                 return;
             }
         }
-        throw new \RuntimeException("No table with $count columns is present on the page.");
+        throw new TableNotFoundException("No table with $count columns is present on the page.");
     }
 
     /**
@@ -137,6 +137,25 @@ class TableContext extends RawTableContext
     }
 
     /**
+     * Checks that the given table does not have the given number of columns.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param int $count
+     *   The unexpected number of columns.
+     *
+     * @Then the :name table should not have :count column(s)
+     */
+    public function assertNoTableColumnCount(string $name, int $count): void
+    {
+        $table = $this->getTable($name);
+        $actual = $table->getColumnCount();
+        if ($actual === $count) {
+            throw new \RuntimeException("The $name table should not have $count columns.");
+        }
+    }
+
+    /**
      * Checks that the given table has the given number of rows.
      *
      * @param string $name
@@ -154,6 +173,25 @@ class TableContext extends RawTableContext
             return;
         }
         throw new \RuntimeException("The $name table should have $count rows but it has $actual rows.");
+    }
+
+    /**
+     * Checks that the given table does not have the given number of rows.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param int $count
+     *   The unexpected number of rows.
+     *
+     * @Then the :name table should not have :count row(s)
+     */
+    public function assertNoTableRowCount(string $name, int $count): void
+    {
+        $table = $this->getTable($name);
+        $actual = $table->getRowCount();
+        if ($actual === $count) {
+            throw new \RuntimeException("The $name table should not have $count rows.");
+        }
     }
 
     /**
@@ -175,6 +213,27 @@ class TableContext extends RawTableContext
     }
 
     /**
+     * Checks that the given table does not contain the given data.
+     *
+     * This checks that the data is not present in the table, ignoring row and column ordering.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that is expected to be present in the table.
+     *
+     * @Then the :name table should not contain:
+     */
+    public function assertNoTableData(string $name, TableNode $data): void
+    {
+        try {
+            $this->assertTableData($name, $data);
+            throw new \RuntimeException("A table with the given data is present on the page, but should not be.");
+        } catch (NoArraySubsetException $e) {
+        }
+    }
+
+    /**
      * Checks that the given table contains the given non-consecutive columns, identified by headers.
      *
      * @param string $name
@@ -191,6 +250,25 @@ class TableContext extends RawTableContext
     }
 
     /**
+     * Checks that the given table does not contain the given non-consecutive columns, identified by headers.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that should not be present in the table, with the first row identifying the columns to match.
+     *
+     * @Then the :name table should not contain the following column(s):
+     */
+    public function assertNoTableColumnData(string $name, TableNode $data): void
+    {
+        try {
+            $this->assertTableColumnData($name, $data);
+            throw new \RuntimeException("A table with the given column data is present on the page, but should not be.");
+        } catch (NoArraySubsetException $e) {
+        }
+    }
+
+    /**
      * Checks that the given table contains the given non-consecutive rows, identified by headers.
      *
      * @param string $name
@@ -204,6 +282,26 @@ class TableContext extends RawTableContext
     {
         $table = $this->getTable($name);
         $this->assertArraySubset($data->getRowsHash(), $table->getRowData($data->getColumn(0)));
+    }
+
+    /**
+     * Checks that the given table does not contain the given non-consecutive rows, identified by headers.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that should not be present in the table, with the first column identifying the rows to match.
+     *
+     * @Then the :name table should not contain the following row(s):
+     */
+    public function assertNoTableRowData(string $name, TableNode $data): void
+    {
+        try {
+            $this->assertTableRowData($name, $data);
+        } catch (NoArraySubsetException $e) {
+            return;
+        }
+        throw new \RuntimeException("A table with the given row data is present in the page but it was not expected to be.");
     }
 
     /**
