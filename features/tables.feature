@@ -41,6 +41,8 @@ Feature: Inspecting HTML tables
     Then I should see the simple table
     And the simple table should have 3 columns
     And the simple table should have 3 rows
+    And the simple table should not have 4 columns
+    And the simple table should not have 4 rows
     And the simple table should contain:
       | Header 1    | Header 2    | Header 3    |
       | Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
@@ -56,6 +58,8 @@ Feature: Inspecting HTML tables
       | Header 1    |
       | Row 2 Col 1 |
       | Row 1 Col 1 |
+    And the simple table should not contain:
+      | A squirrel |
 
     # The second table has 2 columns, of which the first is a vertical header.
     And I should see the Algarve table
@@ -92,10 +96,30 @@ Feature: Inspecting HTML tables
       | Argentina | 16                 |
       | Bahamas   | 39                 |
       | World     | 57                 |
+    # Check that if we mix up data from different rows this is detected as not being present on the page.
+    And the "Population data" table should not contain the following columns:
+      | Country   | Population density |
+      | Albania   | 164                |
+      | Andorra   | 105                |
+    # Check that mixed up column data is detected as not being present on the page.
+    And the "Population data" table should not contain the following columns:
+      | Country   | Population density |
+      | Albania   | 105                |
+      | 164       | Andorra            |
+      | Algeria   | 17                 |
+      | Angola    | 23                 |
+      | Argentina | 16                 |
+      | Bahamas   | 39                 |
+      | World     | 57                 |
     # Check that we can verify non-consecutive rows by specifying the headers.
     And the "Population data" table should contain the following rows:
       | Andorra   | 0.1  | 500     | 164 |
       | Argentina | 43.8 | 2780400 | 16  |
+      | Bahamas   | 0.4  | 13900   | 39  |
+    # Check that mixed up row data is detected as not being present on the page.
+    And the "Population data" table should not contain the following rows:
+      | Andorra   | 0.1  | 2780400 | 164 |
+      | Argentina | 43.8 | 500     | 16  |
       | Bahamas   | 0.4  | 13900   | 39  |
 
     # The fourth table has a rowspan on the first element.
