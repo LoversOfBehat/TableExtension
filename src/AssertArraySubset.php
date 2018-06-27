@@ -132,6 +132,7 @@ class AssertArraySubset
             }
         }
 
-        return $intersect;
+        // Only return the result if it fully matches the subset.
+        return count($subset) == count($intersect) ? $intersect : [];
     }
 }
