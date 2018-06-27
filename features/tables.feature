@@ -6,7 +6,7 @@ Feature: Inspecting HTML tables
   Scenario: Check if any table on the page matches certain characteristics
     Given I am on the homepage
     Then I should see a table
-    And I should see 5 tables
+    And I should see 6 tables
 
     And I should see a table with 2 columns
     And I should see a table with 3 columns
@@ -147,3 +147,16 @@ Feature: Inspecting HTML tables
       |    |    | 3C |    |    |    |
       | 4A | 4B |    | 4D |    |    |
       | 5A |    | 5C |    |    |    |
+
+    # The sixth table contains cells with the same content in different rows.
+    And I should see the "User roles" table
+    And the "User roles" table should have 3 columns
+    And the "User roles" table should have 7 rows
+    And the "User roles" table should contain the following columns:
+      | Group       | Username          | Role          |
+      | Engineering | Najib Randall     | administrator |
+      | Support     | Victor Otto       | administrator |
+      | Engineering | Melor Vescovi     | moderator     |
+      | Engineering | Panteleimon Kita  | moderator     |
+      | Support     | Victor Otto       | moderator     |
+      | Support     | Melissa Kevorkian | moderator     |

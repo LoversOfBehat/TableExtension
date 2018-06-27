@@ -16,3 +16,4 @@ default:
         'Population data': 'table.countries'
         'Employees': '.employees > table'
         'Mad spanner': '.madspans'
+        'User roles': '.roles'
