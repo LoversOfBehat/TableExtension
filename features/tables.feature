@@ -160,3 +160,12 @@ Feature: Inspecting HTML tables
       | Engineering | Panteleimon Kita  | moderator     |
       | Support     | Victor Otto       | moderator     |
       | Support     | Melissa Kevorkian | moderator     |
+    # Check that the full structure of the table on the page.
+    And the "User roles" table should be:
+      | Group       | Username          | Role          |
+      | Engineering | Najib Randall     | administrator |
+      | Support     | Victor Otto       | administrator |
+      | Engineering | Melor Vescovi     | moderator     |
+      | Support     | Victor Otto       | moderator     |
+      | Engineering | Panteleimon Kita  | moderator     |
+      | Support     | Melissa Kevorkian | moderator     |
