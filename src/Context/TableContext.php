@@ -234,6 +234,24 @@ class TableContext extends RawTableContext
     }
 
     /**
+     * Checks that the given table matches the given structure and data.
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param \Behat\Gherkin\Node\TableNode $data
+     *   The expected structure and data of the table.
+     *
+     * @Then the :name table should be:
+     */
+    public function assertExactTableData(string $name, TableNode $data): void
+    {
+        $table = $this->getTable($name);
+        if ($table->getData() !== $data->getRows()) {
+            throw new \RuntimeException("The table $name doesn't match the expected data.");
+        }
+    }
+
+    /**
      * Checks that the given table contains the given non-consecutive columns, identified by headers.
      *
      * @param string $name
