@@ -1,6 +1,7 @@
 {
     "name": "lovers-of-behat/table-extension",
     "description": "Behat extension to inspect HTML tables",
+    "type": "behat-extension",
     "require": {
         "behat/behat": "^3.4",
         "behat/mink-extension": "^2.3",
