@@ -58,6 +58,10 @@ Feature: Inspecting HTML tables
       | Header 1    |
       | Row 2 Col 1 |
       | Row 1 Col 1 |
+    And the simple table should contain a column with the following data:
+      | Header 1    |
+      | Row 1 Col 1 |
+      | Row 2 Col 1 |
     And the simple table should not contain:
       | A squirrel |
 
