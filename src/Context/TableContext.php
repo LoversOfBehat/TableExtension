@@ -284,6 +284,11 @@ class TableContext extends RawTableContext
         // Convert rows of columns to columns of rows.
         $columns = array_map(null, ...$rows);
         foreach ($columns as $column) {
+            if (!empty($column) && !is_array($column)) {
+                // The array_map() above will convert a single column of data to
+                // a single value, so we need to convert it back to an array.
+                $column = [$column];
+            }
             try {
                 if ($data->getColumn(0) === $column) {
                     return;
