@@ -268,6 +268,38 @@ class TableContext extends RawTableContext
     }
 
     /**
+     * Checks that the given table contains any column with the given data
+     *
+     * @param string $name
+     *   The human readable name for the table.
+     * @param TableNode $data
+     *   The data that is expected to be present in the table.
+     *
+     * @Then the :name table should contain a column with the following data:
+     */
+    public function assertTableAnyColumnData(string $name, TableNode $data): void
+    {
+        $table = $this->getTable($name);
+        $rows = $table->getData();
+        // Convert rows of columns to columns of rows.
+        $columns = array_map(null, ...$rows);
+        foreach ($columns as $column) {
+            if (!empty($column) && !is_array($column)) {
+                // The array_map() above will convert a single column of data to
+                // a single value, so we need to convert it back to an array.
+                $column = [$column];
+            }
+            try {
+                if ($data->getColumn(0) === $column) {
+                    return;
+                }
+            } catch (NoArraySubsetException $e) {
+            }
+        }
+        throw new \RuntimeException("No column was found with the exact row data given.");
+    }
+
+    /**
      * Checks that the given table does not contain the given non-consecutive columns, identified by headers.
      *
      * @param string $name
