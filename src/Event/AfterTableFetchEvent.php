@@ -5,36 +5,70 @@ declare(strict_types = 1);
 namespace LoversOfBehat\TableExtension\Event;
 
 use LoversOfBehat\TableExtension\HtmlContainer;
-use Symfony\Component\EventDispatcher\Event;
 
-/**
- * Event that fires after fetching a table from the web page.
- */
-class AfterTableFetchEvent extends Event implements TableEventInterface
-{
-
+if (class_exists('Symfony\Component\EventDispatcher\Event')) {
     /**
-     * An object containing the HTML of the fetched table.
-     *
-     * @var HtmlContainer
+     * Event that fires after fetching a table from the web page.
      */
-    protected $htmlContainer;
-
-    /**
-     * Constructs a new AfterTableFetchEvent object.
-     *
-     * @param HtmlContainer $htmlContainer
-     */
-    public function __construct(HtmlContainer $htmlContainer)
+    class AfterTableFetchEvent extends Symfony\Component\EventDispatcher\Event implements TableEventInterface
     {
-        $this->htmlContainer = $htmlContainer;
+
+        /**
+         * An object containing the HTML of the fetched table.
+         *
+         * @var HtmlContainer
+         */
+        protected $htmlContainer;
+
+        /**
+         * Constructs a new AfterTableFetchEvent object.
+         *
+         * @param HtmlContainer $htmlContainer
+         */
+        public function __construct(HtmlContainer $htmlContainer)
+        {
+            $this->htmlContainer = $htmlContainer;
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function getHtmlContainer(): HtmlContainer
+        {
+            return $this->htmlContainer;
+        }
     }
-
+}
+else {
     /**
-     * {@inheritdoc}
+     * Event that fires after fetching a table from the web page.
      */
-    public function getHtmlContainer(): HtmlContainer
+    class AfterTableFetchEvent extends \Symfony\Contracts\EventDispatcher\Event implements TableEventInterface
     {
-        return $this->htmlContainer;
+
+        /**
+         * An object containing the HTML of the fetched table.
+         *
+         * @var HtmlContainer
+         */
+        protected $htmlContainer;
+
+        /**
+         * Constructs a new AfterTableFetchEvent object.
+         *
+         * @param HtmlContainer $htmlContainer
+         */
+        public function __construct(HtmlContainer $htmlContainer)
+        {
+            $this->htmlContainer = $htmlContainer;
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function getHtmlContainer(): HtmlContainer
+        {
+            return $this->htmlContainer;
+        }
     }
 }
